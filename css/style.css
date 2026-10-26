@@ -1127,3 +1127,10 @@ textarea:focus-visible {
     grid-column: auto;
   }
 }
+/* ===== WhatsApp ===== */
+.botao-whats { display: inline-flex; align-items: center; gap: .5rem; background: #25D366; color: #04210F; }
+.botao-whats:hover { background: #1FB958; }
+.ou { margin-top: 1.25rem; color: var(--cinza); font-size: .9rem; }
+.cartao .botao-whats { margin-top: .5rem; }
+.whats-flutuante { position: fixed; right: 1rem; bottom: 1rem; z-index: 30; display: flex; align-items: center; gap: .5rem; padding: .75rem 1.1rem; border-radius: 999px; background: #25D366; color: #04210F; font-weight: 800; text-decoration: none; box-shadow: 0 6px 20px rgba(0, 0, 0, .3); }
+.whats-flutuante:hover { background: #1FB958; }

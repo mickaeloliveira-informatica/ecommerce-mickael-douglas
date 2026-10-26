@@ -1,3 +1,21 @@
+/* ===== CONFIGURAÇÃO: troque pelo seu número de WhatsApp =====
+   Formato: 55 + DDD + número, só dígitos. Exemplo: 5511999998888 */
+var NUMERO_WHATSAPP = "5598970269565";
+
+function ehCelular() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+ 
+/* Celular: abre direto o app do WhatsApp.
+   Computador: vai direto para a conversa no WhatsApp Web (sem a página intermediária). */
+function linkWhatsApp(texto) {
+  var t = encodeURIComponent(texto);
+  if (ehCelular()) {
+    return "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + t;
+  }
+  return "https://web.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + t;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   /* ===== 1. Menu que abre e fecha ===== */
   var menuBtn = document.getElementById("menuBtn");
@@ -100,7 +118,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (valido) {
-      resultadoContato.textContent = "Mensagem enviada. Responderemos em até 2 dias úteis.";
+      var texto =
+        "Olá, Inovatech Solutions! Vim pelo site e gostaria de um orçamento.\n\n" +
+        "Nome: " + document.getElementById("nome").value.trim() + "\n" +
+        "E-mail: " + document.getElementById("email").value.trim() + "\n" +
+        "Mensagem: " + document.getElementById("mensagem").value.trim();
+      var url = linkWhatsApp(texto);
+
+      window.open(url, "_blank", "noopener");
+
+      resultadoContato.textContent = "Abrindo o WhatsApp com a sua mensagem. ";
+      var link = document.createElement("a");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "Se ele não abrir, clique aqui.";
+      resultadoContato.appendChild(link);
       formContato.reset();
     } else {
       resultadoContato.textContent = "";
@@ -157,5 +190,12 @@ document.addEventListener("DOMContentLoaded", function () {
         p.hidden = p.id !== aba.getAttribute("aria-controls");
       });
     });
+  });
+});
+
+/* ===== 5. Links diretos do WhatsApp (usam o número configurado no topo) ===== */
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("[data-whatsapp]").forEach(function (a) {
+    a.href = linkWhatsApp(a.getAttribute("data-mensagem") || "");
   });
 });
